@@ -11,6 +11,8 @@ public:
 	Rect( const Vec2& topLeft,float width,float height );
 	bool IsOverlappingWith( const Rect& other ) const;
 	bool IsContainedBy( const Rect& other ) const;
+	void MoveTo( const Vec2& point );
+	void MoveBy( const Vec2& amount );
 	static Rect FromCenter( const Vec2& center,float halfWidth,float halfHeight );
 	Rect GetExpanded( float offset ) const;
 	Vec2 GetCenter() const;
