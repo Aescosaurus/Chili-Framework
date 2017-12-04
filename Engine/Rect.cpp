@@ -33,6 +33,22 @@ bool Rect::IsContainedBy( const Rect & other ) const
 		top >= other.top && bottom <= other.bottom;
 }
 
+void Rect::MoveTo( const Vec2& point )
+{
+	right += point.x - left;
+	bottom += point.y - top;
+	left = point.x;
+	top = point.y;
+}
+
+void Rect::MoveBy( const Vec2 & amount )
+{
+	left += amount.x;
+	right += amount.x;
+	top += amount.y;
+	bottom += amount.y;
+}
+
 Rect Rect::FromCenter( const Vec2 & center,float halfWidth,float halfHeight )
 {
 	const Vec2 half( halfWidth,halfHeight );
