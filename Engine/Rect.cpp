@@ -9,7 +9,7 @@ Rect::Rect( float left_in,float right_in,float top_in,float bottom_in )
 {
 }
 
-Rect::Rect( const Vec2& topLeft,const Vec2 & bottomRight )
+Rect::Rect( const Vec2& topLeft,const Vec2& bottomRight )
 	:
 	Rect( topLeft.x,bottomRight.x,topLeft.y,bottomRight.y )
 {
@@ -27,7 +27,7 @@ bool Rect::IsOverlappingWith( const Rect& other ) const
 		&& bottom > other.top && top < other.bottom;
 }
 
-bool Rect::IsContainedBy( const Rect & other ) const
+bool Rect::IsContainedBy( const Rect& other ) const
 {
 	return left >= other.left && right <= other.right &&
 		top >= other.top && bottom <= other.bottom;
@@ -41,7 +41,7 @@ void Rect::MoveTo( const Vec2& point )
 	top = point.y;
 }
 
-void Rect::MoveBy( const Vec2 & amount )
+void Rect::MoveBy( const Vec2& amount )
 {
 	left += amount.x;
 	right += amount.x;
@@ -49,7 +49,7 @@ void Rect::MoveBy( const Vec2 & amount )
 	bottom += amount.y;
 }
 
-Rect Rect::FromCenter( const Vec2 & center,float halfWidth,float halfHeight )
+Rect Rect::FromCenter( const Vec2& center,float halfWidth,float halfHeight )
 {
 	const Vec2 half( halfWidth,halfHeight );
 	return Rect( center - half,center + half );
