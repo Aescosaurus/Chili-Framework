@@ -2,10 +2,10 @@
 
 #include <chrono>
 
-class TimeStep
+class FrameTimer
 {
 public:
-	TimeStep();
+	FrameTimer();
 	float Mark();
 private:
 	std::chrono::steady_clock::time_point last;

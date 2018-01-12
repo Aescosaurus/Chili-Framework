@@ -38,6 +38,22 @@ Vec2& Vec2::operator-=( const Vec2& rhs )
 	return *this = *this - rhs;
 }
 
+int Vec2::operator[]( char letter )
+{
+	if( letter == 'x' )
+	{
+		return( int( x ) );
+	}
+	else if( letter == 'y' )
+	{
+		return( int( y ) );
+	}
+	else
+	{
+		return( int( x + y ) );
+	}
+}
+
 float Vec2::GetLength() const
 {
 	return std::sqrt( GetLengthSq() );
