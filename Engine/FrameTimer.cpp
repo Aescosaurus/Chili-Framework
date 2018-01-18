@@ -1,13 +1,13 @@
-#include "TimeStep.h"
+#include "FrameTimer.h"
 
 using namespace std::chrono;
 
-TimeStep::TimeStep()
+FrameTimer::FrameTimer()
 {
 	last = steady_clock::now();
 }
 
-float TimeStep::Mark()
+float FrameTimer::Mark()
 {
 	const auto old = last;
 	last = steady_clock::now();
