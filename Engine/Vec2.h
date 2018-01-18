@@ -20,6 +20,8 @@ public:
 
 	Vec2& Normalize();
 	Vec2 GetNormalized() const;
+
+	Vec2 Rotation( const float angle ) const;
 public:
 	float x;
 	float y;

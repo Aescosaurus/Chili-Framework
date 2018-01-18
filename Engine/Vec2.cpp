@@ -78,3 +78,11 @@ Vec2 Vec2::GetNormalized() const
 	}
 	return *this;
 }
+
+Vec2 Vec2::Rotation( const float angle ) const
+{
+	Vec2 result;
+	result.x = x * cosf( angle ) - y * sinf( angle );
+	result.y = x * sinf( angle ) + y * cosf( angle );
+	return result;
+}
