@@ -38,6 +38,17 @@ Vec2& Vec2::operator-=( const Vec2& rhs )
 	return *this = *this - rhs;
 }
 
+Vec2 Vec2::operator/( float rhs ) const
+{
+	return Vec2{ x / rhs,y / rhs };
+}
+
+Vec2& Vec2::operator/=( float rhs )
+{
+	*this = ( *this ) / rhs;
+	return *this;
+}
+
 int Vec2::operator[]( char letter )
 {
 	if( letter == 'x' )
@@ -85,4 +96,24 @@ Vec2 Vec2::Rotation( const float angle ) const
 	result.x = x * cosf( angle ) - y * sinf( angle );
 	result.y = x * sinf( angle ) + y * cosf( angle );
 	return result;
+}
+
+Vec2 Vec2::Up()
+{
+	return Vec2{ 0.0f,-1.0f };
+}
+
+Vec2 Vec2::Down()
+{
+	return Vec2{ 0.0f,1.0f };
+}
+
+Vec2 Vec2::Left()
+{
+	return Vec2{ -1.0f,0.0f };
+}
+
+Vec2 Vec2::Right()
+{
+	return Vec2{ 1.0f,0.0f };
 }

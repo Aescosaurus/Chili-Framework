@@ -9,7 +9,8 @@ Animation::Animation( int x,int y,int width,int height,int count,
 {
 	for( int i = 0; i < count; ++i )
 	{
-		frames.emplace_back( x + i * width,x + ( i + 1 ) * width,y,y + height );
+		frames.emplace_back( float( x + i * width ),
+			float( x + ( i + 1 ) * width ),float( y ),float( y + height ) );
 	}
 }
 

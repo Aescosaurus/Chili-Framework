@@ -12,6 +12,8 @@ public:
 	Vec2& operator*=( float rhs );
 	Vec2 operator-( const Vec2& rhs ) const;
 	Vec2& operator-=( const Vec2& rhs );
+	Vec2 operator/( float rhs ) const;
+	Vec2& operator/=( float rhs );
 
 	int operator[]( char letter );
 
@@ -22,6 +24,11 @@ public:
 	Vec2 GetNormalized() const;
 
 	Vec2 Rotation( const float angle ) const;
+
+	static Vec2 Up();
+	static Vec2 Down();
+	static Vec2 Left();
+	static Vec2 Right();
 public:
 	float x;
 	float y;
