@@ -1,4 +1,5 @@
 #include "Animation.h"
+#include "SpriteEffect.h"
 
 Animation::Animation( int x,int y,int width,int height,int count,
 	const Surface& sheet,float holdTime,Color chroma )
@@ -9,8 +10,8 @@ Animation::Animation( int x,int y,int width,int height,int count,
 {
 	for( int i = 0; i < count; ++i )
 	{
-		frames.emplace_back( float( x + i * width ),
-			float( x + ( i + 1 ) * width ),float( y ),float( y + height ) );
+		frames.emplace_back( x + i * width,
+			x + ( i + 1 ) * width,y,y + height );
 	}
 }
 
@@ -26,12 +27,16 @@ void Animation::Update( float dt )
 
 void Animation::Draw( const Vec2& pos,Graphics& gfx ) const
 {
-	gfx.DrawSprite( int( pos.x ),int( pos.y ),frames[iCurFrame],sprite,chroma );
+	gfx.DrawSprite( int( pos.x ),int( pos.y ),
+		frames[iCurFrame],sprite,
+		SpriteEffect::Chroma{ chroma } );
 }
 
 void Animation::Draw( const Vec2& pos,Graphics& gfx,const RectI& clip ) const
 {
-	gfx.DrawSprite( int( pos.x ),int( pos.y ),frames[iCurFrame],clip,sprite,chroma );
+	gfx.DrawSprite( int( pos.x ),int( pos.y ),
+		frames[iCurFrame],clip,sprite,
+		SpriteEffect::Chroma{ chroma } );
 }
 
 void Animation::Advance()

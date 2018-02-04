@@ -26,6 +26,7 @@
 #include "Colors.h"
 #include "Surface.h"
 #include "Rect.h"
+#include <cassert>
 
 class Graphics
 {
@@ -58,6 +59,7 @@ public:
 	{
 		PutPixel( x,y,{ unsigned char( r ),unsigned char( g ),unsigned char( b ) } );
 	}
+	Color& GetPixel( int x,int y ) const;
 	void PutPixel( int x,int y,Color c );
 	void PutPixel( int x,int y,Color c,unsigned char alpha );
 	void PutPixel( int x,int y,Color c,float alpha );
@@ -65,12 +67,62 @@ public:
 	void DrawRectDim( int x1,int y1,int x2,int y2,Color c );
 	void DrawCircle( int x,int y,int radius,Color c );
 	void DrawLine( int x0,int y0,int x1,int y1,Color c );
-	void DrawSpriteNonChroma( int x,int y,const Surface& s );
-	void DrawSpriteNonChroma( int x,int y,const RectI& srcRect,const Surface& s );
-	void DrawSpriteNonChroma( int x,int y,RectI srcRect,const RectI& clip,const Surface& s );
-	void DrawSprite( int x,int y,const Surface& s,Color chroma = Colors::Magenta );
-	void DrawSprite( int x,int y,const RectI& srcRect,const Surface& s,Color chroma = Colors::Magenta );
-	void DrawSprite( int x,int y,RectI srcRect,const RectI& clip,const Surface& s,Color chroma = Colors::Magenta );
+	// void DrawSpriteNonChroma( int x,int y,const Surface& s );
+	// void DrawSpriteNonChroma( int x,int y,const RectI& srcRect,const Surface& s );
+	// void DrawSpriteNonChroma( int x,int y,RectI srcRect,const RectI& clip,const Surface& s );
+	// void DrawSprite( int x,int y,const Surface& s,Color chroma = Colors::Magenta );
+	// void DrawSprite( int x,int y,const RectI& srcRect,const Surface& s,Color chroma = Colors::Magenta );
+	// void DrawSprite( int x,int y,RectI srcRect,const RectI& clip,const Surface& s,Color chroma = Colors::Magenta );
+	template<typename E>
+	void DrawSprite( int x,int y,const Surface& s,E effect )
+	{
+		DrawSprite( x,y,s.GetRect(),s,effect );
+	}
+	template<typename E>
+	void DrawSprite( int x,int y,const RectI& srcRect,const Surface& s,E effect )
+	{
+		DrawSprite( x,y,srcRect,GetScreenRect(),s,effect );
+	}
+	template<typename E>
+	void DrawSprite( int x,int y,RectI srcRect,const RectI& clip,const Surface& s,E effect )
+	{
+		assert( srcRect.left >= 0 );
+		assert( srcRect.right <= s.GetWidth() );
+		assert( srcRect.top >= 0 );
+		assert( srcRect.bottom <= s.GetHeight() );
+		if( x < clip.left )
+		{
+			srcRect.left += clip.left - x;
+			x = int( clip.left );
+		}
+		if( y < clip.top )
+		{
+			srcRect.top += clip.top - y;
+			y = int( clip.top );
+		}
+		if( x + srcRect.GetWidth() > clip.right )
+		{
+			srcRect.right -= x + srcRect.GetWidth() - clip.right;
+		}
+		if( y + srcRect.GetHeight() > clip.bottom )
+		{
+			srcRect.bottom -= y + srcRect.GetHeight() - clip.bottom;
+		}
+		for( int sy = int( srcRect.top ); sy < int( srcRect.bottom ); ++sy )
+		{
+			for( int sx = int( srcRect.left ); sx < int( srcRect.right ); ++sx )
+			{
+				// PutPixel( x + int( sx - srcRect.left ),y + int( sy - srcRect.top ),s.GetPixel( sx,sy ) );
+				effect
+				(
+					s.GetPixel( sx,sy ),
+					x + sx - srcRect.left,
+					y + sy - srcRect.top,
+					*this
+				);
+			}
+		}
+	}
 	~Graphics();
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;
