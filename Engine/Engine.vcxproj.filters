@@ -107,12 +107,6 @@
     <ClCompile Include="COMInitializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vec2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Rect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

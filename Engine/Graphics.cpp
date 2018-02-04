@@ -252,9 +252,9 @@ Graphics::~Graphics()
 	if( pImmediateContext ) pImmediateContext->ClearState();
 }
 
-Rect Graphics::GetScreenRect()
+RectI Graphics::GetScreenRect()
 {
-	return{ 0.0f,float( ScreenWidth ),0.0f,float( ScreenHeight ) };
+	return RectI{ 0,ScreenWidth,0,ScreenHeight };
 }
 
 void Graphics::EndFrame()
@@ -477,12 +477,12 @@ void Graphics::DrawSpriteNonChroma( int x,int y,const Surface& s )
 	DrawSpriteNonChroma( x,y,s.GetRect(),s );
 }
 
-void Graphics::DrawSpriteNonChroma( int x,int y,const Rect& srcRect,const Surface& s )
+void Graphics::DrawSpriteNonChroma( int x,int y,const RectI& srcRect,const Surface& s )
 {
 	DrawSpriteNonChroma( x,y,srcRect,GetScreenRect(),s );
 }
 
-void Graphics::DrawSpriteNonChroma( int x,int y,Rect srcRect,const Rect& clip,const Surface& s )
+void Graphics::DrawSpriteNonChroma( int x,int y,RectI srcRect,const RectI& clip,const Surface& s )
 {
 	assert( srcRect.left >= 0 );
 	assert( srcRect.right <= s.GetWidth() );
@@ -520,12 +520,12 @@ void Graphics::DrawSprite( int x,int y,const Surface& s,Color chroma )
 	DrawSprite( x,y,s.GetRect(),s,chroma );
 }
 
-void Graphics::DrawSprite( int x,int y,const Rect& srcRect,const Surface& s,Color chroma )
+void Graphics::DrawSprite( int x,int y,const RectI& srcRect,const Surface& s,Color chroma )
 {
 	DrawSprite( x,y,srcRect,GetScreenRect(),s,chroma );
 }
 
-void Graphics::DrawSprite( int x,int y,Rect srcRect,const Rect& clip,const Surface& s,Color chroma )
+void Graphics::DrawSprite( int x,int y,RectI srcRect,const RectI& clip,const Surface& s,Color chroma )
 {
 	assert( srcRect.left >= 0 );
 	assert( srcRect.right <= s.GetWidth() );

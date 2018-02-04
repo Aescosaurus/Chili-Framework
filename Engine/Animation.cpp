@@ -29,7 +29,7 @@ void Animation::Draw( const Vec2& pos,Graphics& gfx ) const
 	gfx.DrawSprite( int( pos.x ),int( pos.y ),frames[iCurFrame],sprite,chroma );
 }
 
-void Animation::Draw( const Vec2& pos,Graphics& gfx,const Rect& clip ) const
+void Animation::Draw( const Vec2& pos,Graphics& gfx,const RectI& clip ) const
 {
 	gfx.DrawSprite( int( pos.x ),int( pos.y ),frames[iCurFrame],clip,sprite,chroma );
 }
