@@ -18,6 +18,12 @@ public:
 		y( T( src.y ) )
 	{}
 
+	template<typename U>
+	operator Vec2_<U>() const
+	{
+		return Vec2_<U>( U( x ),U( y ) );
+	}
+
 	Vec2_ operator+( const Vec2_& rhs ) const
 	{
 		return Vec2_( x + rhs.x,y + rhs.y );

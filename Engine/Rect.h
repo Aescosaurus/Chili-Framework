@@ -23,6 +23,12 @@ public:
 		Rect( topLeft,topLeft + Vec2_<T>( width,height ) )
 	{}
 
+	template<typename U>
+	operator Rect_<U>() const
+	{
+		return Rect<U>( U( left ),U( right ),U( top ),U( bottom ) );
+	}
+
 	bool IsOverlappingWith( const Rect_& other ) const
 	{
 		return right > other.left && left < other.right
