@@ -4,10 +4,12 @@
 #include "Graphics.h"
 #include <vector>
 
-class Animation
+class Anim
 {
 public:
-	Animation( int x,int y,int width,int height,int count,const Surface& sheet,float holdTime,Color chroma = Colors::Magenta );
+	Anim( int x,int y,int width,int height,int count,const Surface& sheet,float holdTime,Color chroma = Colors::Magenta );
+	Anim( const Anim& other );
+	Anim& operator=( const Anim& other );
 
 	void Update( float dt );
 	void Draw( const Vec2& pos,Graphics& gfx ) const;
@@ -15,10 +17,10 @@ public:
 private:
 	void Advance();
 private:
-	Color chroma;
+	const Color chroma;
 	const Surface& sprite;
 	std::vector<RectI> frames;
 	int iCurFrame = 0;
-	float holdTime;
+	const float holdTime;
 	float curFrameTime = 0.0f;
 };

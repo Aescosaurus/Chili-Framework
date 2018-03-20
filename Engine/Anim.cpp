@@ -1,7 +1,7 @@
-#include "Animation.h"
+#include "Anim.h"
 #include "SpriteEffect.h"
 
-Animation::Animation( int x,int y,int width,int height,int count,
+Anim::Anim( int x,int y,int width,int height,int count,
 	const Surface& sheet,float holdTime,Color chroma )
 	:
 	sprite( sheet ),
@@ -15,7 +15,24 @@ Animation::Animation( int x,int y,int width,int height,int count,
 	}
 }
 
-void Animation::Update( float dt )
+Anim::Anim( const Anim& other )
+	:
+	chroma( other.chroma ),
+	sprite( other.sprite ),
+	holdTime( other.holdTime )
+{
+	*this = other;
+}
+
+Anim& Anim::operator=( const Anim& other )
+{
+	iCurFrame = other.iCurFrame;
+	curFrameTime = other.curFrameTime;
+	frames = other.frames;
+	return( *this );
+}
+
+void Anim::Update( float dt )
 {
 	curFrameTime += dt;
 	while( curFrameTime >= holdTime )
@@ -25,21 +42,21 @@ void Animation::Update( float dt )
 	}
 }
 
-void Animation::Draw( const Vec2& pos,Graphics& gfx ) const
+void Anim::Draw( const Vec2& pos,Graphics& gfx ) const
 {
 	gfx.DrawSprite( int( pos.x ),int( pos.y ),
 		frames[iCurFrame],sprite,
 		SpriteEffect::Chroma{ chroma } );
 }
 
-void Animation::Draw( const Vec2& pos,Graphics& gfx,const RectI& clip ) const
+void Anim::Draw( const Vec2& pos,Graphics& gfx,const RectI& clip ) const
 {
 	gfx.DrawSprite( int( pos.x ),int( pos.y ),
 		frames[iCurFrame],clip,sprite,
 		SpriteEffect::Chroma{ chroma } );
 }
 
-void Animation::Advance()
+void Anim::Advance()
 {
 	if( ++iCurFrame >= frames.size() )
 	{
