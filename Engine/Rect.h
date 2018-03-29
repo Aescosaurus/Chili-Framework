@@ -16,11 +16,11 @@ public:
 	{}
 	Rect_( const Vec2_<T>& topLeft,const Vec2_<T>& bottomRight )
 		:
-		Rect( topLeft.x,bottomRight.x,topLeft.y,bottomRight.y )
+		Rect_( topLeft.x,bottomRight.x,topLeft.y,bottomRight.y )
 	{}
 	Rect_( const Vec2_<T>& topLeft,T width,T height )
 		:
-		Rect( topLeft,topLeft + Vec2_<T>( width,height ) )
+		Rect_( topLeft,topLeft + Vec2_<T>( width,height ) )
 	{}
 
 	template<typename U>

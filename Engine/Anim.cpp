@@ -58,7 +58,7 @@ void Anim::Draw( const Vec2& pos,Graphics& gfx,const RectI& clip ) const
 
 void Anim::Advance()
 {
-	if( ++iCurFrame >= frames.size() )
+	if( ++iCurFrame >= int( frames.size() ) )
 	{
 		iCurFrame = 0;
 	}
