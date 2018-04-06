@@ -58,6 +58,15 @@ public:
 		*this = ( *this ) / rhs;
 		return *this;
 	}
+	Vec2_ operator%( T rhs ) const
+	{
+		return Vec2_{ x % rhs,y % rhs };
+	}
+	Vec2_& operator%=( T rhs ) const
+	{
+		*this = ( *this ) % rhs;
+		return( *this );
+	}
 
 	T GetLength() const
 	{
@@ -66,6 +75,10 @@ public:
 	T GetLengthSq() const
 	{
 		return x * x + y * y;
+	}
+	T GetAngle() const
+	{
+		return T( atan2( y,x ) );
 	}
 
 	Vec2_& Normalize()
@@ -113,3 +126,4 @@ public:
 
 typedef Vec2_<float> Vec2;
 typedef Vec2_<int> Vei2;
+typedef Vec2_<double> Ved2;

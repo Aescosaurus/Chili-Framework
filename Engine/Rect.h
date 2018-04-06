@@ -39,6 +39,12 @@ public:
 		return left >= other.left && right <= other.right &&
 			top >= other.top && bottom <= other.bottom;
 	}
+	template<typename V>
+	bool ContainsPoint( const Vec2_<V>& pos )
+	{
+		return pos.x > other.left && pos.x < other.right &&
+			pos.y > other.top && pos.y < other.bottom;
+	}
 
 	void MoveTo( const Vec2_<T>& point )
 	{
@@ -86,3 +92,4 @@ public:
 
 typedef Rect_<float> Rect;
 typedef Rect_<int> RectI;
+typedef Rect_<double> RectD;
