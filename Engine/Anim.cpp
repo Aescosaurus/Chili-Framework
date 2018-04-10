@@ -42,18 +42,21 @@ void Anim::Update( float dt )
 	}
 }
 
-void Anim::Draw( const Vec2& pos,Graphics& gfx ) const
+void Anim::Draw( const Vei2& pos,Graphics& gfx ) const
 {
-	gfx.DrawSprite( int( pos.x ),int( pos.y ),
-		frames[iCurFrame],sprite,
-		SpriteEffect::Chroma{ chroma } );
+	Draw( pos,gfx,Graphics::GetScreenRect() );
 }
 
-void Anim::Draw( const Vec2& pos,Graphics& gfx,const RectI& clip ) const
+void Anim::Draw( const Vei2& pos,Graphics& gfx,const RectI& clip ) const
 {
 	gfx.DrawSprite( int( pos.x ),int( pos.y ),
 		frames[iCurFrame],clip,sprite,
-		SpriteEffect::Chroma{ chroma } );
+		SpriteEffect::Chroma{ chroma },false );
+}
+
+bool Anim::IsFinished() const
+{
+	return finished;
 }
 
 void Anim::Advance()
@@ -61,5 +64,6 @@ void Anim::Advance()
 	if( ++iCurFrame >= int( frames.size() ) )
 	{
 		iCurFrame = 0;
+		finished = true;
 	}
 }

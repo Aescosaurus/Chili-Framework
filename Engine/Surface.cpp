@@ -2,6 +2,7 @@
 #include "ChiliWin.h"
 #include <cassert>
 #include <fstream>
+#include "Graphics.h"
 
 Surface::Surface( const std::string& filename )
 {
@@ -65,6 +66,13 @@ Surface::Surface( const std::string& filename )
 			file.seekg( padding,std::ios::cur );
 		}
 	}
+}
+
+Surface::Surface( const std::wstring& fileName )
+{
+	std::string properString( fileName.begin(),fileName.end() );
+	properString.assign( fileName.begin(),fileName.end() );
+	*this = Surface( properString );
 }
 
 Surface::Surface( int width,int height )

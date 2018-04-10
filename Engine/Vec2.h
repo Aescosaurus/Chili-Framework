@@ -6,86 +6,86 @@ template<typename T>
 class Vec2_
 {
 public:
-	Vec2_() = default;
-	Vec2_( T x_in,T y_in )
+	constexpr Vec2_() = default;
+	constexpr Vec2_( T x_in,T y_in )
 		:
 		x( x_in ),
 		y( y_in )
 	{}
 	template<typename U>
-	Vec2_( const Vec2_<U>& src )
+	constexpr Vec2_( const Vec2_<U>& src )
 		:
 		x( T( src.x ) ),
 		y( T( src.y ) )
 	{}
 
 	template<typename U>
-	operator Vec2_<U>() const
+	constexpr operator Vec2_<U>() const
 	{
 		return Vec2_<U>( U( x ),U( y ) );
 	}
 
-	Vec2_ operator+( const Vec2_& rhs ) const
+	constexpr Vec2_ operator+( const Vec2_& rhs ) const
 	{
 		return Vec2_( x + rhs.x,y + rhs.y );
 	}
-	Vec2_& operator+=( const Vec2_& rhs )
+	constexpr Vec2_& operator+=( const Vec2_& rhs )
 	{
 		return *this = *this + rhs;
 	}
-	Vec2_ operator*( T rhs ) const
+	constexpr Vec2_ operator*( T rhs ) const
 	{
 		return Vec2_( x * rhs,y * rhs );
 	}
-	Vec2_& operator*=( T rhs )
+	constexpr Vec2_& operator*=( T rhs )
 	{
 		return *this = *this * rhs;
 	}
-	Vec2_ operator-( const Vec2_& rhs ) const
+	constexpr Vec2_ operator-( const Vec2_& rhs ) const
 	{
 		return Vec2_( x - rhs.x,y - rhs.y );
 	}
-	Vec2_& operator-=( const Vec2_& rhs )
+	constexpr Vec2_& operator-=( const Vec2_& rhs )
 	{
 		return *this = *this - rhs;
 	}
-	Vec2_ operator/( T rhs ) const
+	constexpr Vec2_ operator/( T rhs ) const
 	{
 		return Vec2_{ x / rhs,y / rhs };
 	}
-	Vec2_& operator/=( T rhs )
+	constexpr Vec2_& operator/=( T rhs )
 	{
 		*this = ( *this ) / rhs;
 		return *this;
 	}
-	Vec2_ operator%( T rhs ) const
+	constexpr Vec2_ operator%( T rhs ) const
 	{
 		return Vec2_{ x % rhs,y % rhs };
 	}
-	Vec2_& operator%=( T rhs ) const
+	constexpr Vec2_& operator%=( T rhs ) const
 	{
 		*this = ( *this ) % rhs;
 		return( *this );
 	}
 
-	T GetLength() const
+	constexpr T GetLength() const
 	{
 		return T( std::sqrt( GetLengthSq() ) );
 	}
-	T GetLengthSq() const
+	constexpr T GetLengthSq() const
 	{
 		return x * x + y * y;
 	}
-	T GetAngle() const
+	constexpr T GetAngle() const
 	{
 		return T( atan2( y,x ) );
 	}
 
-	Vec2_& Normalize()
+	constexpr Vec2_& Normalize()
 	{
 		return *this = GetNormalized();
 	}
-	Vec2_ GetNormalized() const
+	constexpr Vec2_ GetNormalized() const
 	{
 		const T len = GetLength();
 		if( len != T( 0.0f ) )
@@ -95,7 +95,7 @@ public:
 		return *this;
 	}
 
-	Vec2_ Rotation( const T angle ) const
+	constexpr Vec2_ Rotation( const T angle ) const
 	{
 		Vec2_ result;
 		result.x = x * cosf( angle ) - y * sinf( angle );
@@ -103,19 +103,19 @@ public:
 		return result;
 	}
 
-	static Vec2_ Up()
+	static constexpr Vec2_ Up()
 	{
 		return Vec2_{ 0.0f,-1.0f };
 	}
-	static Vec2_ Down()
+	static constexpr Vec2_ Down()
 	{
 		return Vec2_{ 0.0f,1.0f };
 	}
-	static Vec2_ Left()
+	static constexpr Vec2_ Left()
 	{
 		return Vec2_{ -1.0f,0.0f };
 	}
-	static Vec2_ Right()
+	static constexpr Vec2_ Right()
 	{
 		return Vec2_{ 1.0f,0.0f };
 	}

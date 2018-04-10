@@ -153,6 +153,7 @@ public:
 	};
 public:
 	Sound() = default;
+	Sound( const std::string& fileName,LoopType type = LoopType::NotLooping );
 	// for backwards compatibility--2nd parameter false -> NotLooping (does not work with non-wav)
 	Sound( const std::wstring& fileName,bool loopingWithAutoCueDetect );
 	// do not pass this function Manual LoopTypes!

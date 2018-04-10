@@ -12,8 +12,10 @@ public:
 	Anim& operator=( const Anim& other );
 
 	void Update( float dt );
-	void Draw( const Vec2& pos,Graphics& gfx ) const;
-	void Draw( const Vec2& pos,Graphics& gfx,const RectI& clip ) const;
+	void Draw( const Vei2& pos,Graphics& gfx ) const;
+	void Draw( const Vei2& pos,Graphics& gfx,const RectI& clip ) const;
+
+	bool IsFinished() const;
 private:
 	void Advance();
 private:
@@ -23,4 +25,5 @@ private:
 	int iCurFrame = 0;
 	const float holdTime;
 	float curFrameTime = 0.0f;
+	bool finished = false;
 };

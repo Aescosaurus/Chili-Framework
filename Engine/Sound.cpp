@@ -326,6 +326,15 @@ void SoundSystem::Channel::RetargetSound( const Sound* pOld,Sound* pNew )
 	pSound = pNew;
 }
 
+Sound::Sound( const std::string& fileName,LoopType type )
+{
+	std::wstring wrongString( fileName.length(),L' ' );
+
+	std::copy( fileName.begin(),fileName.end(),wrongString.begin() );
+
+	*this = Sound( wrongString,type );
+}
+
 Sound::Sound( const std::wstring& fileName,bool loopingWithAutoCueDetect )
 	:
 	Sound( fileName,loopingWithAutoCueDetect ? 
