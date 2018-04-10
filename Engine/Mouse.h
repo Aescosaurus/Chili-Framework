@@ -21,6 +21,8 @@
 #pragma once
 #include <queue>
 
+#include "Vec2.h"
+
 class Mouse
 {
 	friend class MainWindow;
@@ -74,6 +76,10 @@ public:
 		{
 			return{ x,y };
 		}
+		// Vei2 GetPos() const
+		// {
+		// 	return { x,y };
+		// }
 		int GetPosX() const
 		{
 			return x;
@@ -95,11 +101,13 @@ public:
 	Mouse() = default;
 	Mouse( const Mouse& ) = delete;
 	Mouse& operator=( const Mouse& ) = delete;
-	std::pair<int,int> GetPos() const;
+	// std::pair<int,int> GetPos() const;
+	Vei2 GetPos() const;
 	int GetPosX() const;
 	int GetPosY() const;
 	bool LeftIsPressed() const;
 	bool RightIsPressed() const;
+	bool MiddleMousePressed() const;
 	bool IsInWindow() const;
 	Mouse::Event Read();
 	bool IsEmpty() const
@@ -124,6 +132,7 @@ private:
 	int y;
 	bool leftIsPressed = false;
 	bool rightIsPressed = false;
+	bool scrollWheelDown = false;
 	bool isInWindow = false;
 	std::queue<Event> buffer;
 };

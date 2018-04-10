@@ -21,7 +21,11 @@
 #include "Mouse.h"
 
 
-std::pair<int,int> Mouse::GetPos() const
+// std::pair<int,int> Mouse::GetPos() const
+// {
+// 	return { x,y };
+// }
+Vei2 Mouse::GetPos() const
 {
 	return { x,y };
 }
@@ -44,6 +48,11 @@ bool Mouse::LeftIsPressed() const
 bool Mouse::RightIsPressed() const
 {
 	return rightIsPressed;
+}
+
+bool Mouse::MiddleMousePressed() const
+{
+	return scrollWheelDown;
 }
 
 bool Mouse::IsInWindow() const
@@ -123,12 +132,16 @@ void Mouse::OnRightReleased( int x,int y )
 
 void Mouse::OnWheelUp( int x,int y )
 {
+	scrollWheelDown = false;
+
 	buffer.push( Mouse::Event( Mouse::Event::Type::WheelUp,*this ) );
 	TrimBuffer();
 }
 
 void Mouse::OnWheelDown( int x,int y )
 {
+	scrollWheelDown = true;
+
 	buffer.push( Mouse::Event( Mouse::Event::Type::WheelDown,*this ) );
 	TrimBuffer();
 }

@@ -2,29 +2,95 @@
 
 #include "Vec2.h"
 
-class Rect
+template<typename T>
+class Rect_
 {
 public:
-	Rect() = default;
-	Rect( float left_in,float right_in,float top_in,float bottom_in );
-	Rect( const Vec2& topLeft,const Vec2& bottomRight );
-	Rect( const Vec2& topLeft,float width,float height );
+	constexpr Rect_() = default;
+	constexpr Rect_( T left_in,T right_in,T top_in,T bottom_in )
+		:
+		left( left_in ),
+		right( right_in ),
+		top( top_in ),
+		bottom( bottom_in )
+	{}
+	constexpr Rect_( const Vec2_<T>& topLeft,const Vec2_<T>& bottomRight )
+		:
+		Rect_( topLeft.x,bottomRight.x,topLeft.y,bottomRight.y )
+	{}
+	constexpr Rect_( const Vec2_<T>& topLeft,T width,T height )
+		:
+		Rect_( topLeft,topLeft + Vec2_<T>( width,height ) )
+	{}
 
-	bool IsOverlappingWith( const Rect& other ) const;
-	bool IsContainedBy( const Rect& other ) const;
+	template<typename U>
+	constexpr operator Rect_<U>() const
+	{
+		return Rect_<U>( U( left ),U( right ),U( top ),U( bottom ) );
+	}
 
-	void MoveTo( const Vec2& point );
-	void MoveBy( const Vec2& amount );
+	constexpr bool IsOverlappingWith( const Rect_& other ) const
+	{
+		return right > other.left && left < other.right
+			&& bottom > other.top && top < other.bottom;
+	}
+	constexpr bool IsContainedBy( const Rect_& other ) const
+	{
+		return left >= other.left && right <= other.right &&
+			top >= other.top && bottom <= other.bottom;
+	}
+	template<typename V>
+	constexpr bool ContainsPoint( const Vec2_<V>& pos )
+	{
+		return pos.x > other.left && pos.x < other.right &&
+			pos.y > other.top && pos.y < other.bottom;
+	}
 
-	static Rect FromCenter( const Vec2& center,float halfWidth,float halfHeight );
-	Rect GetExpanded( float offset ) const;
-	Vec2 GetCenter() const;
+	constexpr void MoveTo( const Vec2_<T>& point )
+	{
+		right += point.x - left;
+		bottom += point.y - top;
+		left = point.x;
+		top = point.y;
+	}
+	constexpr void MoveBy( const Vec2_<T>& amount )
+	{
+		left += amount.x;
+		right += amount.x;
+		top += amount.y;
+		bottom += amount.y;
+	}
 
-	float GetWidth() const;
-	float GetHeight() const;
+	static constexpr Rect_ FromCenter( const Vec2_<T>& center,
+		T halfWidth,T halfHeight )
+	{
+		const Vec2_<T> half( halfWidth,halfHeight );
+		return Rect( center - half,center + half );
+	}
+	constexpr Rect_ GetExpanded( T offset ) const
+	{
+		return Rect( left - offset,right + offset,top - offset,bottom + offset );
+	}
+	constexpr Vec2_<T> GetCenter() const
+	{
+		return Vec2_<T>( ( left + right ) / 2.0f,( top + bottom ) / 2.0f );
+	}
+
+	constexpr T GetWidth() const
+	{
+		return right - left;
+	}
+	constexpr T GetHeight() const
+	{
+		return bottom - top;
+	}
 public:
-	float left;
-	float right;
-	float top;
-	float bottom;
+	T left;
+	T right;
+	T top;
+	T bottom;
 };
+
+typedef Rect_<float> Rect;
+typedef Rect_<int> RectI;
+typedef Rect_<double> Recd;

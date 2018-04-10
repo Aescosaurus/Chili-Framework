@@ -2,6 +2,7 @@
 #include "ChiliWin.h"
 #include <cassert>
 #include <fstream>
+#include "Graphics.h"
 
 Surface::Surface( const std::string& filename )
 {
@@ -44,7 +45,7 @@ Surface::Surface( const std::string& filename )
 		dy = -1;
 	}
 
-	pPixels = new Color[width * height];
+	pixels.resize( width * height );
 
 	file.seekg( bmFileHeader.bfOffBits );
 	// Padding is for 24 bit depth only.
@@ -67,45 +68,36 @@ Surface::Surface( const std::string& filename )
 	}
 }
 
+Surface::Surface( const std::wstring& fileName )
+{
+	std::string properString( fileName.begin(),fileName.end() );
+	properString.assign( fileName.begin(),fileName.end() );
+	*this = Surface( properString );
+}
+
 Surface::Surface( int width,int height )
 	:
 	width( width ),
 	height( height ),
-	pPixels( new Color[width * height] )
+	pixels( width * height )
 {
 }
 
-Surface::Surface( const Surface& rhs )
-	:
-	Surface( rhs.width,rhs.height )
+Surface::Surface( Surface&& donor )
 {
-	const int nPixels = width * height;
-	for( int i = 0; i < nPixels; ++i )
-	{
-		pPixels[i] = rhs.pPixels[i];
-	}
+	*this = std::move( donor );
 }
 
-Surface::~Surface()
-{
-	delete[] pPixels;
-	pPixels = nullptr;
-}
-
-Surface& Surface::operator=( const Surface& rhs )
+Surface& Surface::operator=( Surface&& rhs )
 {
 	width = rhs.width;
 	height = rhs.height;
+	pixels = std::move( rhs.pixels );
 
-	delete[] pPixels;
-	pPixels = new Color[width * height];
+	rhs.width = 0;
+	rhs.height = 0;
 
-	const int nPixels = width * height;
-	for( int i = 0; i < nPixels; ++i )
-	{
-		pPixels[i] = rhs.pPixels[i];
-	}
-	return *this;
+	return( *this );
 }
 
 void Surface::PutPixel( int x,int y,Color c )
@@ -114,7 +106,7 @@ void Surface::PutPixel( int x,int y,Color c )
 	assert( x < width );
 	assert( y >= 0 );
 	assert( y < height );
-	pPixels[y * width + x] = c;
+	pixels.data()[y * width + x] = c;
 }
 
 Color Surface::GetPixel( int x,int y ) const
@@ -123,7 +115,7 @@ Color Surface::GetPixel( int x,int y ) const
 	assert( x < width );
 	assert( y >= 0 );
 	assert( y < height );
-	return pPixels[y * width + x];
+	return pixels.data()[y * width + x];
 }
 
 int Surface::GetWidth() const
@@ -136,7 +128,7 @@ int Surface::GetHeight() const
 	return height;
 }
 
-Rect Surface::GetRect() const
+RectI Surface::GetRect() const
 {
-	return{ 0.0f,float( width ),0.0f,float( height ) };
+	return{ 0,width,0,height };
 }
