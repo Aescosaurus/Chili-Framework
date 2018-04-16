@@ -139,6 +139,7 @@
     <ClInclude Include="Anim.h" />
     <ClInclude Include="ChiliException.h" />
     <ClInclude Include="ChiliWin.h" />
+    <ClInclude Include="Codex.h" />
     <ClInclude Include="Colors.h" />
     <ClInclude Include="COMInitializer.h" />
     <ClInclude Include="DXErr.h" />
@@ -156,6 +157,7 @@
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SpriteEffect.h" />
     <ClInclude Include="Surface.h" />
+    <ClInclude Include="Utils.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>
