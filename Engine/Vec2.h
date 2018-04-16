@@ -7,17 +7,23 @@ class Vec2_
 {
 public:
 	constexpr Vec2_() = default;
-	constexpr Vec2_( T x_in,T y_in )
+	constexpr Vec2_( T x,T y )
 		:
-		x( x_in ),
-		y( y_in )
+		x( x ),
+		y( y )
 	{}
-	template<typename U>
-	constexpr Vec2_( const Vec2_<U>& src )
+	constexpr Vec2_( T amount )
 		:
-		x( T( src.x ) ),
-		y( T( src.y ) )
-	{}
+		x( amount ),
+		y( amount )
+	{
+	}
+	// template<typename U>
+	// constexpr Vec2_( const Vec2_<U>& src )
+	// 	:
+	// 	x( T( src.x ) ),
+	// 	y( T( src.y ) )
+	// {}
 
 	template<typename U>
 	constexpr operator Vec2_<U>() const

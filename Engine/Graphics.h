@@ -169,48 +169,6 @@ public:
 			}
 		}
 	}
-	/*
-	template<typename E>
-	void DrawSprite( int x,int y,RectI srcRect,const RectI& clip,const Surface& s,E effect )
-	{
-		assert( srcRect.left >= 0 );
-		assert( srcRect.right <= s.GetWidth() );
-		assert( srcRect.top >= 0 );
-		assert( srcRect.bottom <= s.GetHeight() );
-		if( x < clip.left )
-		{
-			srcRect.left += clip.left - x;
-			x = int( clip.left );
-		}
-		if( y < clip.top )
-		{
-			srcRect.top += clip.top - y;
-			y = int( clip.top );
-		}
-		if( x + srcRect.GetWidth() > clip.right )
-		{
-			srcRect.right -= x + srcRect.GetWidth() - clip.right;
-		}
-		if( y + srcRect.GetHeight() > clip.bottom )
-		{
-			srcRect.bottom -= y + srcRect.GetHeight() - clip.bottom;
-		}
-		for( int sy = int( srcRect.top ); sy < int( srcRect.bottom ); ++sy )
-		{
-			for( int sx = int( srcRect.left ); sx < int( srcRect.right ); ++sx )
-			{
-				// PutPixel( x + int( sx - srcRect.left ),y + int( sy - srcRect.top ),s.GetPixel( sx,sy ) );
-				effect
-				(
-					s.GetPixel( sx,sy ),
-					x + sx - srcRect.left,
-					y + sy - srcRect.top,
-					*this
-				);
-			}
-		}
-	}
-	*/
 	~Graphics();
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;
