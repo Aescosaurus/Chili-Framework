@@ -25,6 +25,7 @@
 #include <assert.h>
 #include <string>
 #include <array>
+#include "SpriteEffect.h"
 
 // Ignore the intellisense error "cannot open source file" for .shh files.
 // They will be created during the build sequence before the preprocessor runs.
@@ -238,6 +239,15 @@ Graphics::Graphics( HWNDKey& key )
 	// allocate memory for sysbuffer (16-byte aligned for faster access)
 	pSysBuffer = reinterpret_cast< Color* >(
 		_aligned_malloc( sizeof( Color ) * Graphics::ScreenWidth * Graphics::ScreenHeight,16u ) );
+}
+
+void Graphics::JSDrawImage( const Surface& image,int sx,int sy,int sWidth,int sHeight,
+	int dx,int dy,int dWidth,int dHeight )
+{
+	const Rect clipRect = RectI( sx,( sx + sWidth ),sy,( sy + sHeight ) );
+	const Surface enlarged = image.GetInterpolated( dWidth,dHeight );
+
+	DrawSprite( dx,dy,clipRect,GetScreenRect(),enlarged,SpriteEffect::Copy(),false );
 }
 
 Graphics::~Graphics()

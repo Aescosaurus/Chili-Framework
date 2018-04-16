@@ -125,6 +125,15 @@ public:
 	{
 		return Vec2_{ 1.0f,0.0f };
 	}
+
+	static constexpr float Lerp( float s,float e,float t )
+	{
+		return s + ( e - s ) * t;
+	}
+	static constexpr float Blerp( float c00,float c10,float c01,float c11,float tx,float ty )
+	{
+		return Lerp( Lerp( c00,c10,tx ),Lerp( c01,c11,tx ),ty );
+	}
 public:
 	T x;
 	T y;
