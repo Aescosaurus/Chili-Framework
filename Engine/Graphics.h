@@ -170,8 +170,15 @@ public:
 		}
 	}
 	
-	void JSDrawImage( const Surface& image,int dx,int dy );
-	void JSDrawImage( const Surface& image,int dx,int dy,int dWidth,int dHeight );
+	void JSDrawImage( const Surface& image,int dx,int dy )
+	{
+		JSDrawImage( image,dx,dy,image.GetWidth(),image.GetHeight() );
+	}
+	void JSDrawImage( const Surface& image,int dx,int dy,int dWidth,int dHeight )
+	{
+		JSDrawImage( image,dx,dy,dWidth,dHeight,
+			dx,dy,dWidth,dHeight );
+	}
 	void JSDrawImage( const Surface& image,int sx,int sy,int sWidth,int sHeight,int dx,int dy,int dWidth,int dHeight );
 	~Graphics();
 private:

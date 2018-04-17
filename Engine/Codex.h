@@ -29,6 +29,14 @@ private:
 		const T* pResource;
 	};
 public:
+	static const T* Retrieve( const std::string& key )
+	{
+		std::wstring wrongString( fileName.length(),L' ' );
+
+		std::copy( fileName.begin(),fileName.end(),wrongString.begin() );
+
+		return( Retrieve( wrongString ) );
+	}
 	// retrieve a ptr to resource based on string (load if not exist)
 	static const T* Retrieve( const std::wstring& key )
 	{

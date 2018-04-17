@@ -191,7 +191,11 @@ Surface Surface::GetInterpolated( int width,int height ) const
 				const int b10 = ( c10 >> ( i * 8 ) ) & 0xFF;
 				const int b01 = ( c01 >> ( i * 8 ) ) & 0xFF;
 				const int b11 = ( c11 >> ( i * 8 ) ) & 0xFF;
-				const int ble = ( int( Vec2::Blerp( b00,b10,b01,b11,gx - gxi,gy - gyi ) ) ) << ( 8 * i );
+				const int ble = ( int( Vec2
+					::Blerp( float( b00 ),float( b10 ),
+					float( b01 ),float( b11 ),
+					gx - float( gxi ),gy - float( gyi ) ) ) )
+					<< ( 8 * i );
 				rgb = rgb | ble;
 			}
 			newImage.PutPixel( x,y,rgb );
