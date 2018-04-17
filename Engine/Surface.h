@@ -10,6 +10,7 @@ class Surface
 public:
 	Surface( const std::string& filename );
 	Surface( const std::wstring& fileName );
+	Surface( const Surface& other,const RectI& clip );
 	Surface( int width,int height );
 
 	Surface( const Surface& ) = default;
@@ -40,7 +41,6 @@ public:
 	Surface GetExpanded( int width,int height ) const;
 	Surface GetInterpolated( int width,int height ) const;
 private:
-	// Color * pPixels = nullptr;
 	std::vector<Color> pixels;
 	int width;
 	int height;

@@ -75,6 +75,27 @@ Surface::Surface( const std::wstring& fileName )
 	*this = Surface( properString );
 }
 
+Surface::Surface( const Surface& other,const RectI& clip )
+	:
+	width( clip.GetWidth() ),
+	height( clip.GetHeight() )
+{
+	pixels.resize( width * height );
+
+	int i = 0;
+	int j = 0;
+	for( int y = clip.top; y < clip.bottom - 1; ++y )
+	{
+		for( int x = clip.left; x < clip.right - 1; ++x )
+		{
+			PutPixel( j,i,other.GetPixel( x,y ) );
+			++j;
+		}
+		j = 0;
+		++i;
+	}
+}
+
 Surface::Surface( int width,int height )
 	:
 	width( width ),
