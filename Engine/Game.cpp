@@ -38,6 +38,7 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	f.DrawText( "BOP",{ 50,50 },Colors::White,gfx );
 }
 
 void Game::ComposeFrame()
