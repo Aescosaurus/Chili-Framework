@@ -66,17 +66,18 @@ public:
 	void DrawRect( int x,int y,int width,int height,Color c );
 	void DrawRectDim( int x1,int y1,int x2,int y2,Color c );
 	void DrawCircle( int x,int y,int radius,Color c );
-	void DrawLine( int x0,int y0,int x1,int y1,Color c );
+	void DrawLineOld( int x0,int y0,int x1,int y1,Color c );
+	void DrawLine( Vec2 p0,Vec2 p1,Color c );
 	template<typename R>
 	void DrawHitbox( const Rect_<R>& hitbox,Color c = { 255,160,0 } )
 	{
-		DrawLine( int( hitbox.left ),int( hitbox.top ),
+		DrawLineOld( int( hitbox.left ),int( hitbox.top ),
 			int( hitbox.right ),int( hitbox.top ),c );
-		DrawLine( int( hitbox.right ),int( hitbox.top ),
+		DrawLineOld( int( hitbox.right ),int( hitbox.top ),
 			int( hitbox.right ),int( hitbox.bottom ),c );
-		DrawLine( int( hitbox.right ),int( hitbox.bottom ),
+		DrawLineOld( int( hitbox.right ),int( hitbox.bottom ),
 			int( hitbox.left ),int( hitbox.bottom ),c );
-		DrawLine( int( hitbox.left ),int( hitbox.bottom ),
+		DrawLineOld( int( hitbox.left ),int( hitbox.bottom ),
 			int( hitbox.left ),int( hitbox.top ),c );
 	}
 	template<typename E>

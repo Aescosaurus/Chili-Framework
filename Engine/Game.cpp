@@ -38,9 +38,14 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
-	f.DrawText( "BOP",{ 50,50 },Colors::White,gfx );
 }
 
 void Game::ComposeFrame()
 {
+	if( wnd.mouse.LeftIsPressed() )
+	{
+		gfx.DrawLine( { 50.0f,50.0f },
+			Vec2( wnd.mouse.GetPos() ),
+			Colors::Cyan );
+	}
 }
