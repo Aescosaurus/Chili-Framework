@@ -39,11 +39,10 @@ public:
 		return left >= other.left && right <= other.right &&
 			top >= other.top && bottom <= other.bottom;
 	}
-	template<typename V>
-	constexpr bool ContainsPoint( const Vec2_<V>& pos )
+	constexpr bool ContainsPoint( const Vec2_<T>& pos )
 	{
-		return pos.x > other.left && pos.x < other.right &&
-			pos.y > other.top && pos.y < other.bottom;
+		return pos.x > left && pos.x < right &&
+			pos.y > top && pos.y < bottom;
 	}
 
 	constexpr void MoveTo( const Vec2_<T>& point )
@@ -69,11 +68,11 @@ public:
 	}
 	constexpr Rect_ GetExpanded( T offset ) const
 	{
-		return Rect( left - offset,right + offset,top - offset,bottom + offset );
+		return Rect_( left - offset,right + offset,top - offset,bottom + offset );
 	}
 	constexpr Vec2_<T> GetCenter() const
 	{
-		return Vec2_<T>( ( left + right ) / 2.0f,( top + bottom ) / 2.0f );
+		return Vec2_<T>( ( left + right ) / T( 2 ),( top + bottom ) / T( 2 ) );
 	}
 
 	constexpr T GetWidth() const

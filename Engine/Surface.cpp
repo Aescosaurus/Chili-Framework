@@ -75,6 +75,27 @@ Surface::Surface( const std::wstring& fileName )
 	*this = Surface( properString );
 }
 
+Surface::Surface( const Surface& other,const RectI& clip )
+	:
+	width( clip.GetWidth() ),
+	height( clip.GetHeight() )
+{
+	pixels.resize( width * height );
+
+	int i = 0;
+	int j = 0;
+	for( int y = clip.top; y < clip.bottom - 1; ++y )
+	{
+		for( int x = clip.left; x < clip.right - 1; ++x )
+		{
+			PutPixel( j,i,other.GetPixel( x,y ) );
+			++j;
+		}
+		j = 0;
+		++i;
+	}
+}
+
 Surface::Surface( int width,int height )
 	:
 	width( width ),
@@ -109,6 +130,17 @@ void Surface::PutPixel( int x,int y,Color c )
 	pixels.data()[y * width + x] = c;
 }
 
+void Surface::DrawRect( int x,int y,int width,int height,Color c )
+{
+	for( int i = y; i < y + height; ++i )
+	{
+		for( int j = x; j < x + width; ++j )
+		{
+			PutPixel( j,i,c );
+		}
+	}
+}
+
 Color Surface::GetPixel( int x,int y ) const
 {
 	assert( x >= 0 );
@@ -131,4 +163,64 @@ int Surface::GetHeight() const
 RectI Surface::GetRect() const
 {
 	return{ 0,width,0,height };
+}
+
+Surface Surface::GetExpanded( int width,int height ) const
+{
+	Surface bigger = { width,height };
+	const Vec2 expandAmount = { float( width / this->width ),
+		float( height / this->height ) };
+
+	for( int y = 0; y < this->height; ++y )
+	{
+		for( int x = 0; x < this->width; ++x )
+		{
+			bigger.DrawRect( int( float( x ) *
+				expandAmount.x ),int( float( y ) *
+				expandAmount.y ),
+				int( expandAmount.x ),
+				int( expandAmount.y ),
+				GetPixel( x,y ) );
+		}
+	}
+
+	return bigger;
+}
+
+// https://rosettacode.org/wiki/Bilinear_interpolation helped a lot with this conversion code.
+Surface Surface::GetInterpolated( int width,int height ) const
+{
+	const int newWidth = width;
+	const int newHeight = height;
+	Surface newImage = Surface( newWidth,newHeight );
+	for( int x = 0; x < newWidth; ++x )
+	{
+		for( int y = 0; y < newHeight; ++y )
+		{
+			const float gx = ( float( x ) ) / newWidth * ( GetWidth() - 1 );
+			const float gy = ( float( y ) ) / newHeight * ( GetHeight() - 1 );
+			const int gxi = int( gx );
+			const int gyi = int( gy );
+			int rgb = 0;
+			const int c00 = GetPixel( gxi,gyi ).dword;
+			const int c10 = GetPixel( gxi + 1,gyi ).dword;
+			const int c01 = GetPixel( gxi,gyi + 1 ).dword;
+			const int c11 = GetPixel( gxi + 1,gyi + 1 ).dword;
+			for( int i = 0; i <= 2; ++i )
+			{
+				const int b00 = ( c00 >> ( i * 8 ) ) & 0xFF;
+				const int b10 = ( c10 >> ( i * 8 ) ) & 0xFF;
+				const int b01 = ( c01 >> ( i * 8 ) ) & 0xFF;
+				const int b11 = ( c11 >> ( i * 8 ) ) & 0xFF;
+				const int ble = ( int( Vec2
+					::Blerp( float( b00 ),float( b10 ),
+					float( b01 ),float( b11 ),
+					gx - float( gxi ),gy - float( gyi ) ) ) )
+					<< ( 8 * i );
+				rgb = rgb | ble;
+			}
+			newImage.PutPixel( x,y,rgb );
+		}
+	}
+	return newImage;
 }

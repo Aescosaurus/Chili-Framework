@@ -66,17 +66,18 @@ public:
 	void DrawRect( int x,int y,int width,int height,Color c );
 	void DrawRectDim( int x1,int y1,int x2,int y2,Color c );
 	void DrawCircle( int x,int y,int radius,Color c );
-	void DrawLine( int x0,int y0,int x1,int y1,Color c );
+	void DrawLineOld( int x0,int y0,int x1,int y1,Color c );
+	void DrawLine( Vec2 p0,Vec2 p1,Color c );
 	template<typename R>
 	void DrawHitbox( const Rect_<R>& hitbox,Color c = { 255,160,0 } )
 	{
-		DrawLine( int( hitbox.left ),int( hitbox.top ),
+		DrawLineOld( int( hitbox.left ),int( hitbox.top ),
 			int( hitbox.right ),int( hitbox.top ),c );
-		DrawLine( int( hitbox.right ),int( hitbox.top ),
+		DrawLineOld( int( hitbox.right ),int( hitbox.top ),
 			int( hitbox.right ),int( hitbox.bottom ),c );
-		DrawLine( int( hitbox.right ),int( hitbox.bottom ),
+		DrawLineOld( int( hitbox.right ),int( hitbox.bottom ),
 			int( hitbox.left ),int( hitbox.bottom ),c );
-		DrawLine( int( hitbox.left ),int( hitbox.bottom ),
+		DrawLineOld( int( hitbox.left ),int( hitbox.bottom ),
 			int( hitbox.left ),int( hitbox.top ),c );
 	}
 	template<typename E>
@@ -169,48 +170,17 @@ public:
 			}
 		}
 	}
-	/*
-	template<typename E>
-	void DrawSprite( int x,int y,RectI srcRect,const RectI& clip,const Surface& s,E effect )
+	
+	void JSDrawImage( const Surface& image,int dx,int dy )
 	{
-		assert( srcRect.left >= 0 );
-		assert( srcRect.right <= s.GetWidth() );
-		assert( srcRect.top >= 0 );
-		assert( srcRect.bottom <= s.GetHeight() );
-		if( x < clip.left )
-		{
-			srcRect.left += clip.left - x;
-			x = int( clip.left );
-		}
-		if( y < clip.top )
-		{
-			srcRect.top += clip.top - y;
-			y = int( clip.top );
-		}
-		if( x + srcRect.GetWidth() > clip.right )
-		{
-			srcRect.right -= x + srcRect.GetWidth() - clip.right;
-		}
-		if( y + srcRect.GetHeight() > clip.bottom )
-		{
-			srcRect.bottom -= y + srcRect.GetHeight() - clip.bottom;
-		}
-		for( int sy = int( srcRect.top ); sy < int( srcRect.bottom ); ++sy )
-		{
-			for( int sx = int( srcRect.left ); sx < int( srcRect.right ); ++sx )
-			{
-				// PutPixel( x + int( sx - srcRect.left ),y + int( sy - srcRect.top ),s.GetPixel( sx,sy ) );
-				effect
-				(
-					s.GetPixel( sx,sy ),
-					x + sx - srcRect.left,
-					y + sy - srcRect.top,
-					*this
-				);
-			}
-		}
+		JSDrawImage( image,dx,dy,image.GetWidth(),image.GetHeight() );
 	}
-	*/
+	void JSDrawImage( const Surface& image,int dx,int dy,int dWidth,int dHeight )
+	{
+		JSDrawImage( image,dx,dy,dWidth,dHeight,
+			dx,dy,dWidth,dHeight );
+	}
+	void JSDrawImage( const Surface& image,int sx,int sy,int sWidth,int sHeight,int dx,int dy,int dWidth,int dHeight );
 	~Graphics();
 private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;
